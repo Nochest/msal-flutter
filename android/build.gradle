@@ -2,10 +2,11 @@ group 'uk.co.moodio.msal_flutter'
 version '1.0-SNAPSHOT'
 
 buildscript {
-    ext.kotlin_version = '1.9.24' // <--- USAS KOTLIN NUEVO
+    ext.kotlin_version = '1.9.24'
+
     repositories {
         google()
-        mavenCentral() // <--- jcenter eliminado
+        mavenCentral()
     }
 
     dependencies {
@@ -25,20 +26,24 @@ rootProject.allprojects {
 }
 
 apply plugin: 'com.android.library'
-apply plugin: 'org.jetbrains.kotlin.android'
+apply plugin: 'kotlin-android'      // <----- CORRECTO PARA PLUGIN FLUTTER
 
 android {
-    namespace "uk.co.moodio.msal_flutter" // <--- OBLIGATORIO para Gradle 8
+    namespace "uk.co.moodio.msal_flutter"
 
-    compileSdkVersion 34 // <--- ACTUALIZADO
+    compileSdkVersion 34
 
     defaultConfig {
-        minSdkVersion 26  // <--- TU PROYECTO USA 26
+        minSdkVersion 26
         targetSdkVersion 34
     }
 
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
+    }
+
+    buildFeatures {
+        buildConfig = false   // <----- NECESARIO PARA PLUGINS ANTIGUOS CON AGP 8
     }
 
     compileOptions {
@@ -47,7 +52,7 @@ android {
     }
 
     kotlinOptions {
-        jvmTarget = '17'
+        jvmTarget = "17"
     }
 
     lintOptions {
@@ -57,7 +62,5 @@ android {
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-
-    // MSAL
     implementation 'com.microsoft.identity.client:msal:4.0.2'
 }
